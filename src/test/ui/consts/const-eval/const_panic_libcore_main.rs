@@ -17,8 +17,12 @@ const X: () = unimplemented!();
 
 #[lang = "eh_personality"]
 fn eh() {}
+
+unsafe extern "C" fn eh_unwind_resume(_: *mut u8) -> ! {
+    loop {}
+}
 #[lang = "eh_unwind_resume"]
-fn eh_unwind_resume() {}
+static _RESUME: unsafe extern "C" fn(*mut u8) -> ! = eh_unwind_resume;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
