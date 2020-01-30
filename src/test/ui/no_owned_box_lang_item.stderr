@@ -1,4 +1,20 @@
+error[E0308]: mismatched types
+  --> $DIR/no_owned_box_lang_item.rs:20:36
+   |
+LL | extern "C" fn eh_unwind_resume(_: *mut u8) -> ! {
+   | ----------------------------------------------- extern "C" fn(*mut u8) -> ! {eh_unwind_resume} defined here
+...
+LL | static _RESUME: fn(*mut u8) -> ! = eh_unwind_resume;
+   |                                    ^^^^^^^^^^^^^^^^
+   |                                    |
+   |                                    expected "Rust" fn, found "C" fn
+   |                                    help: use parentheses to call this function: `eh_unwind_resume(_)`
+   |
+   = note: expected fn pointer `fn(_) -> _`
+                 found fn item `extern "C" fn(_) -> _ {eh_unwind_resume}`
+
 error: requires `owned_box` lang_item
 
-error: aborting due to previous error
+error: aborting due to 2 previous errors
 
+For more information about this error, try `rustc --explain E0308`.
